@@ -12,6 +12,20 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
+app.post('/webhook', function (req, res) {
+    // console.log('webhook request')
+    // console.log(req.body.queryResult)
+    console.log(req.body.queryResult.parameters.any)
+    res.setHeader("Content-Type","application/json")
+    const naam = req.body.queryResult.parameters.any
+    let respons = " " 
+    let responsObj = {"fulfillmentText":respons,"fulfillmentMessages": [{"text": {"text": naam}}],"source":""}
+    console.log(responsObj);
+    io.emit('chat message', "google home zegt: "+ naam);
+    return res.json(responsObj)
+
+});
+
 io.on('connection', function (socket) {
     console.log('a user connected');
     io.emit('chat message', 'user connected');
@@ -31,8 +45,6 @@ io.on('connection', function (socket) {
     });
 
 });
-
-
 
 
 const PORT = process.env.PORT || 3000;
