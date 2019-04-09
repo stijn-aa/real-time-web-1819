@@ -14,4 +14,8 @@
         li.appendChild(msgtext);
         document.querySelector('#messages').appendChild(li);
     });
+    socket.on('usercount', function (count) {
+        console.log(count);
+        document.querySelector('#count').innerHTML = "online: " + count;
+    });
 }());
