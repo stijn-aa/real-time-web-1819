@@ -17,13 +17,13 @@ io.on('connection', function (socket) {
     io.emit('chat message', 'user connected');
 
     userCount ++;
-    io.emit('userCount', userCount);
+    io.emit('usercount', userCount);
 
     socket.on('disconnect', function () {
         console.log('user disconnected');
         io.emit('chat message', 'user disconnected'); 
         userCount --;
-    io.emit('userCount', userCount);
+    io.emit('usercount', userCount);
     });
     socket.on('chat message', function (msg) {
         console.log('message: ' + msg);

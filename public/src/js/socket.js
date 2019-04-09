@@ -8,7 +8,7 @@
         return false;
     });
     socket.on('chat message', function (msg) {
-        console.log(msg);
+
         const li = document.createElement("li")
         const msgtext = document.createTextNode(msg);
         li.appendChild(msgtext);
