@@ -4,7 +4,8 @@
   "description": "my first socket.io app",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "deploy": "git add . && git commit -am \"make it better\" && git push heroku master && heroku logs --tail"
   },
   "dependencies": {
     "express": "^4.16.4",
