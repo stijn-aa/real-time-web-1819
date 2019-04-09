@@ -14,8 +14,8 @@ app.get('/', function (req, res) {
 
 app.post('/webhook', function (req, res) {
 
-    var name = req
-    io.emit('chat message', name);
+    console.log(req)
+    io.emit('chat message', "test");
     res.setHeader("Content-Type","application/json")
     return res.json(responsObj)
 
