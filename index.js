@@ -14,7 +14,7 @@ app.get('/', function (req, res) {
 
 app.post('/webhook', function (req, res) {
 
-    var name = req.body.queryResult.parameters.any
+    //var name = req.body.queryResult.parameters.any
     console.log("--", io);
     res.setHeader("Content-Type","application/json")
     return res.json(responsObj)
