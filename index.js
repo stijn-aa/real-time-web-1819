@@ -14,7 +14,7 @@ app.get('/', function (req, res) {
 
 app.post('/webhook', function (req, res) {
     // console.log('webhook request')
-    // console.log(req.body.queryResult)
+    console.log(req.body)
     console.log(req.body.queryResult.parameters.any)
     res.setHeader("Content-Type","application/json")
     const naam = req.body.queryResult.parameters.any
