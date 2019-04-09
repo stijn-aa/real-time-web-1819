@@ -1,7 +1,7 @@
 var express = require("express")
 var path = require("path")
 var app = express();
-var server = require('http').createServer(app)
+var server = require('https').createServer(app)
 var io = require('socket.io')(server)
 
 let userCount = 0
@@ -12,15 +12,6 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.post('/webhook', function (req, res) {
-
-    console.log(req)
-    io.emit('chat message', "test");
-
-
-}).fail(function(response) {
-    alert('Error: ' + response.responseText);
-});
 
 io.on('connection', function (socket) {
     console.log('a user connected');
