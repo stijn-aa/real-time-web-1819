@@ -16,9 +16,10 @@ app.post('/webhook', function (req, res) {
 
     console.log(req)
     io.emit('chat message', "test");
-    res.setHeader("Content-Type","application/json")
-    return res.json(responsObj)
 
+
+}).fail(function(response) {
+    alert('Error: ' + response.responseText);
 });
 
 io.on('connection', function (socket) {
