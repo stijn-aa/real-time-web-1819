@@ -1,12 +1,14 @@
 var express = require("express")
 var path = require("path")
+var bodyParser = require('body-parser');
 var app = express();
-const axios = require('axios')
+var axios = require('axios')
 var server = require('http').createServer(app)
 var io = require('socket.io')(server)
 
 let userCount = 0
 
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function (req, res) {
@@ -17,6 +19,7 @@ axios.post('/webhook', function (req, res) {
 
     const name = req.body.queryResult.parameters.any
     io.emit('chat message', "google zegt" + name);
+    console.log(req)
     
 })
 .catch((error) => {
