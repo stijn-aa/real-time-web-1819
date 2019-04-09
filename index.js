@@ -13,15 +13,10 @@ app.get('/', function (req, res) {
 });
 
 app.post('/webhook', function (req, res) {
-    // console.log('webhook request')
     console.log(req)
-    console.log(req.body.queryResult.parameters.any)
+    var name = req.body.queryResult.parameters.any
+    console.log("--", io);
     res.setHeader("Content-Type","application/json")
-    const naam = req.body.queryResult.parameters.any
-    let respons = " " 
-    let responsObj = {"fulfillmentText":respons,"fulfillmentMessages": [{"text": {"text": naam}}],"source":""}
-    console.log(responsObj);
-    io.emit('chat message', "google home zegt: "+ naam);
     return res.json(responsObj)
 
 });
