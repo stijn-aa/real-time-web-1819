@@ -8,6 +8,7 @@
     "deploy": "git add . && git commit -am \"make it better\" && git push heroku master && heroku logs --tail"
   },
   "dependencies": {
+    "actions-on-google": "^2.6.0",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
