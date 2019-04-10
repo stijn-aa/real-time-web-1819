@@ -17,8 +17,8 @@ app.get('/', function (req, res) {
 app.post('/webhook', function (req, res) {
 
     const name = req.body.queryResult.parameters.any
-    io.emit('chat message', "google zegt" + name);
-    console.log(req)
+    io.emit('chat message', "google zegt " + name);
+    console.log(req.body)
     res.end();
     
 })
