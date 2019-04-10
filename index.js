@@ -16,7 +16,8 @@ const reqproces = dialogflow({
 });
 
 
-let userCount = 0
+let userCount = 0;
+let username = nun;
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -27,8 +28,17 @@ app.get('/', function (req, res) {
 
 
 
-reqproces.intent('fillIn', (conv, params) => {
-    conv.ask(`How are you, ${params.any}?`);
+reqproces.intent('talkToChat', (conv, params) => {
+    conv.ask(`Oke and with what name?`);
+});
+reqproces.intent('setName', (conv, params) => {
+    conv.ask(`Oke, ${params.name}?`);
+    conv.ask(`And what do you want to say?`);
+    username = params.name;
+});
+reqproces.intent('chat', (conv, params) => {
+    conv.ask(`You just said: ${params.any} in the chatroom with username ${username}`);
+    io.emit('chat message', username + ": "+ params.any);
 });
 
 
