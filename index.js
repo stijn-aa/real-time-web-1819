@@ -18,6 +18,7 @@ const reqproces = dialogflow({
 
 let userCount = 0;
 let username = undefined;
+let chatcount = 0;
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -27,18 +28,28 @@ app.get('/', function (req, res) {
 });
 
 
-
 reqproces.intent('talkToChat', (conv, params) => {
-    conv.ask(`Oke and with what name?`);
+    if (username === undefined){
+        conv.ask(`Oke and with what name?`);
+    }else{
+        conv.ask(`And what do you want to say,${username}?`);
+    }
 });
 reqproces.intent('setName', (conv, params) => {
-    conv.ask(`Oke, ${params.name}?`);
+    console.log(params)
+    username = params.any;
+    conv.ask(`Oke, ${params.any}?`);
     conv.ask(`And what do you want to say?`);
-    username = params.name;
+
 });
 reqproces.intent('chat', (conv, params) => {
     conv.ask(`You just said: ${params.any} in the chatroom with username ${username}`);
     io.emit('chat message', username + ": "+ params.any);
+    chatcount ++;
+    if(chatcount > 3)
+    conv.ask(`i am resetting`);
+    username = undefined
+    chatcount = 0
 });
 
 
