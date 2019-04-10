@@ -1,10 +1,9 @@
-var express = require("express")
-var path = require("path")
+var express = require("express");
+var path = require("path");
 var bodyParser = require('body-parser');
 var app = express();
-var axios = require('axios')
-var server = require('http').createServer(app)
-var io = require('socket.io')(server)
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
 let userCount = 0
 
@@ -15,18 +14,13 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-axios.post('/webhook', function (req, res) {
+app.post('/webhook', function (req, res) {
 
     const name = req.body.queryResult.parameters.any
     io.emit('chat message', "google zegt" + name);
     console.log(req)
     
 })
-.catch((error) => {
-    console.error(error)
-    io.emit('chat message', "google zegt" + error);
-});
-
 
 io.on('connection', function (socket) {
     console.log('a user connected');
@@ -48,8 +42,8 @@ io.on('connection', function (socket) {
 
 });
 
-
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`Our app is running on port ${ PORT }`);
 })
+
