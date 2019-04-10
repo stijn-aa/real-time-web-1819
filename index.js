@@ -52,13 +52,15 @@ io.on('connection', function (socket) {
 
 });
 
-app.post('/webhook', function (req, res) {
+app.post('/webhook',reqproces);
 
-    const msg = req.body.queryResult.parameters.any
-    io.emit('chat message', "google zegt " + msg);
-    console.log(req.body)
-    res.end();
-})
+// app.post('/webhook', function (req, res) {
+
+//     const msg = req.body.queryResult.parameters.any
+//     io.emit('chat message', "google zegt " + msg);
+//     console.log(req.body)
+//     res.end();
+// })
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
