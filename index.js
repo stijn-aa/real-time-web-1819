@@ -19,6 +19,7 @@ app.post('/webhook', function (req, res) {
     const name = req.body.queryResult.parameters.any
     io.emit('chat message', "google zegt" + name);
     console.log(req)
+    res.end();
     
 })
 
