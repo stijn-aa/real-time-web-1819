@@ -17,7 +17,7 @@ const reqproces = dialogflow({
 
 
 let userCount = 0;
-let username = nun;
+let username = undefined;
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
