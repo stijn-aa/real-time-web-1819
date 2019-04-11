@@ -46,7 +46,8 @@ form button {
 }
 
 #messages li:nth-child(odd) {
-    background: #eee;
+    background: rgb(241, 142, 142);
+    background-blend-mode: saturation;
 }
 h2{
     margin: auto;
