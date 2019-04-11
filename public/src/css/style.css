@@ -45,10 +45,10 @@ form button {
     padding: 5px 10px;
 }
 
-#messages li:nth-child(odd) {
+/* #messages li:nth-child(odd) {
     background: rgb(241, 142, 142);
     background-blend-mode: saturation;
-}
+} */
 h2{
     margin: auto;
     text-align: center;
