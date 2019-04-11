@@ -35,6 +35,7 @@ reqproces.intent('talkToChat', (conv, params) => {
         conv.ask(`And what do you want to say,${username}?`);
     }
 });
+
 reqproces.intent('setName', (conv, params) => {
 
     username = params.any;
@@ -43,9 +44,12 @@ reqproces.intent('setName', (conv, params) => {
 
 });
 reqproces.intent('chat', (conv, params) => {
+    if (username === undefined) {
+        conv.ask(`i need to know your name first`);
+    }else{
     conv.ask(`You just said: "${params.any}" in the chatroom with username ${username}`);
     io.emit('chat message', username + ": " + params.any);
-});
+}});
 
 reqproces.intent('changeColor', (conv, params) => {
     conv.ask(`You just changed the color to: "${params.color}"`);
