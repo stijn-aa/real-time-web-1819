@@ -47,8 +47,14 @@ reqproces.intent('chat', (conv, params) => {
     io.emit('chat message', username + ": " + params.any);
 });
 
+reqproces.intent('changeColor', (conv, params) => {
+    conv.ask(`You just changed the color to: "${params.color}"`);
+    io.emit('change color', params.color);
+});
+
+
 reqproces.fallback((conv) => {
-    conv.ask(`I couldn't understand. Can you say that again?`);
+    conv.ask(`I couldn't understand. You can change your name or say something in the chat with this app`);
 });
 
 reqproces.catch((conv, error) => {

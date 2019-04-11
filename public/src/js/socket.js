@@ -7,6 +7,7 @@
         socket.emit('set user', document.querySelector('#u').value);
 
         document.querySelector('.sendmsg').disabled = false;
+        document.querySelector('#m').disabled = false;
     })
 
     document.querySelector('.msg').addEventListener("submit", function (e) {
@@ -20,10 +21,22 @@
         const msgtext = document.createTextNode(msg);
         li.appendChild(msgtext);
         document.querySelector('#messages').appendChild(li);
+
+        if(document.querySelector('#messages').childElementCount > 10){
+            document.querySelector('#messages').removeChild(document.querySelector('#messages').firstChild)
+        }
+
     });
     socket.on('usercount', function (count) {
         console.log(count);
         document.querySelector('#count').innerHTML = "Online: " + count;
     });
+    
+    socket.on('change color', function (color) {
+        console.log(color);
+        document.body.style.backgroundColor = color;
+    });
+
 }());
+
 
