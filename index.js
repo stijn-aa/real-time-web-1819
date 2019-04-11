@@ -29,9 +29,9 @@ app.get('/', function (req, res) {
 
 
 reqproces.intent('talkToChat', (conv, params) => {
-    if (username === undefined){
+    if (username === undefined) {
         conv.ask(`Oke and with what name?`);
-    }else{
+    } else {
         conv.ask(`And what do you want to say,${username}?`);
     }
 });
@@ -43,13 +43,17 @@ reqproces.intent('setName', (conv, params) => {
 
 });
 reqproces.intent('chat', (conv, params) => {
-    conv.ask(`You just said: ${params.any} in the chatroom with username ${username}`);
-    io.emit('chat message', username + ": "+ params.any);
-    chatcount ++;
-    if(chatcount > 3)
-    conv.ask(`i am resetting`);
-    username = undefined
-    chatcount = 0
+    conv.ask(`You just said: "${params.any}" in the chatroom with username ${username}`);
+    io.emit('chat message', username + ": " + params.any);
+});
+
+app.fallback((conv) => {
+    conv.ask(`I couldn't understand. Can you say that again?`);
+});
+
+app.catch((conv, error) => {
+    console.error(error);
+    conv.ask('I encountered a glitch. Can you say that again?');
 });
 
 
@@ -73,7 +77,7 @@ io.on('connection', function (socket) {
 
 });
 
-app.post('/webhook',reqproces);
+app.post('/webhook', reqproces);
 
 // app.post('/webhook', function (req, res) {
 
