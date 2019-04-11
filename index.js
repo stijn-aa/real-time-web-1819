@@ -39,7 +39,7 @@ reqproces.intent('setName', (conv, params) => {
     console.log(params)
     username = params.any;
     conv.ask(`Oke, ${params.any}?`);
-    conv.ask(`And what do you want to say?`);
+    conv.ask(` And what do you want to say?`);
 
 });
 reqproces.intent('chat', (conv, params) => {
@@ -58,34 +58,69 @@ reqproces.catch((conv, error) => {
 
 
 io.on('connection', function (socket) {
-    console.log('a user connected');
-    io.emit('chat message', 'user connected');
+    socket.timestamp = new Date();
 
+    io.emit('chat message', 'On ' + socket.timestamp + ' a user connected');
     userCount++;
     io.emit('usercount', userCount);
 
+
     socket.on('disconnect', function () {
         console.log('user disconnected');
-        io.emit('chat message', 'user disconnected');
+        io.emit('chat message', 'user: "' + socket.username + '" had died');
         userCount--;
         io.emit('usercount', userCount);
     });
+
     socket.on('chat message', function (msg) {
+
+       const age = " (Age "+ getAge(socket.timestamp) +") "
+
         console.log('message: ' + msg);
-        io.emit('chat message', msg);
+        io.emit('chat message', socket.username + age + ": " + msg);
+    });
+
+    socket.on('set user', function (name) {
+        console.log(socket.username)
+        if (socket.username === undefined) {
+            io.emit('chat message', 'A new user has changed his name to "' + name + '"');
+        } else if (name === socket.username) {
+            io.emit('chat message', 'User "' + socket.username + '" tried to change his name but failed');
+        } else {
+            io.emit('chat message', 'User "' + socket.username + '" changed his name to "' + name + '"');
+        }
+        socket.username = name;
     });
 
 });
 
+function getAge(timestamp) {
+    let currentDate = new Date
+    let millisec = currentDate.getTime() - timestamp.getTime()
+    
+    let seconds = (millisec / 1000).toFixed(0);
+    let minutes = Math.floor(seconds / 60);
+    let hours = "";
+    if (minutes > 59) {
+        hours = Math.floor(minutes / 60);
+        hours = (hours >= 10) ? hours : "0" + hours;
+        minutes = minutes - (hours * 60);
+        minutes = (minutes >= 10) ? minutes : "0" + minutes;
+    }
+
+    seconds = Math.floor(seconds % 60);
+    seconds = (seconds >= 10) ? seconds : "0" + seconds;
+    if (hours != "") {
+        return hours + ":" + minutes + ":" + seconds;
+    }
+    return minutes + ":" + seconds;
+}
+
+
+
 app.post('/webhook', reqproces);
 
-// app.post('/webhook', function (req, res) {
 
-//     const msg = req.body.queryResult.parameters.any
-//     io.emit('chat message', "google zegt " + msg);
-//     console.log(req.body)
-//     res.end();
-// })
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {

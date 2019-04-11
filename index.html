@@ -11,14 +11,26 @@
 
 
 <body>
-    <ul id="messages"></ul>
-    <form action="">
-        <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-    <p id="count"></p>
+
+    <head>
+        <h2 id="count"></h2>
+        <form class="username" action="">
+            <input placeholder="set username" id="u" autocomplete="off" /><button>Set</button>
+        </form>
+        <form class="msg" action="">
+            <input id="m" autocomplete="off" /><button class="sendmsg" disabled>Send</button>
+        </form>
+    </head>
+    <main>
+
+            <ul id="messages"></ul>
+
+
+    </main>
+
 
     <script src="/socket.io/socket.io.js"></script>
-<script src = "/src/js/socket.js"></script>
+    <script src="/src/js/socket.js"></script>
 </body>
 
 </html>

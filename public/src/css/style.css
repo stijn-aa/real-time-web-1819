@@ -11,9 +11,14 @@ body {
 form {
     background: #000;
     padding: 3px;
-    position: fixed;
-    bottom: 0;
+
+
     width: 100%;
+}
+
+form.msg {
+bottom: 0;
+position: fixed;
 }
 
 form input {
@@ -43,7 +48,9 @@ form button {
 #messages li:nth-child(odd) {
     background: #eee;
 }
-p{
-    width: 45px;
+h2{
+    margin: auto;
+    text-align: center;
+    width: 107px;
     height: 29px;
 }
