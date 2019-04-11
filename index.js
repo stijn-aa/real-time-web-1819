@@ -36,7 +36,7 @@ reqproces.intent('talkToChat', (conv, params) => {
     }
 });
 reqproces.intent('setName', (conv, params) => {
-    console.log(params)
+
     username = params.any;
     conv.ask(`Oke, ${params.any}?`);
     conv.ask(` And what do you want to say?`);
@@ -87,7 +87,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('set user', function (name) {
-        console.log(socket.username)
+
         if (socket.username === undefined) {
             io.emit('chat message', 'A new user has changed his name to "' + name + '"');
         } else if (name === socket.username) {
