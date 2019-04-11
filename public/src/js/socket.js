@@ -34,7 +34,7 @@
     
     socket.on('change color', function (color) {
         console.log(color);
-        document.body.style.backgroundColor = color;
+        document.querySelector("main").style.backgroundColor = color;
     });
 
 }());
