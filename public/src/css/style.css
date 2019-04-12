@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    border-radius: 3px;
 }
 
 body {
@@ -9,32 +10,42 @@ body {
 }
 
 form {
-    background: #000;
+    display: flex;
     padding: 3px;
+    margin: 3px auto;
+    width: 46%;
+    justify-content: space-around;
+}
 
-
-    width: 100%;
+main {
+    background: #e4e4e4;
+    width: 45%;
+    margin: auto;
+    height: 72vh;
+    overflow:hidden;
 }
 
 form.msg {
-bottom: 463px;
-position: fixed;
+bottom: 0px;
+/* position: fixed; */
 }
 
 form input {
-    border: 0;
+    border-color: black;
+    border-width: 1px;
     padding: 10px;
     width: 90%;
-    margin-right: .5%;
+    /* margin-right: .5%; */
 }
-
 form button {
-    width: 9%;
-    background: rgb(130, 224, 255);
+    /* margin: auto; */
+    /* width: 9%; */
+    background: rgb(255, 236, 130);
     border: none;
     padding: 10px;
+    /* text-align: center; */
+    width: 51px;
 }
-
 #messages {
     list-style-type: none;
     margin: 0;
@@ -54,4 +65,5 @@ h2{
     text-align: center;
     width: 107px;
     height: 29px;
+    padding: 10px;
 }
