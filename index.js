@@ -48,7 +48,7 @@ reqproces.intent('chat', (conv, params) => {
         conv.ask(`i need to know your name first`);
     }else{
     conv.ask(`You just said: "${params.any}" in the chatroom with username ${username}`);
-    io.emit('chat message', username + ": " + params.any);
+    io.emit('chat message', username + " (via google assistant): " + params.any);
 }});
 
 reqproces.intent('changeColor', (conv, params) => {
