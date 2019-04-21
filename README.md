@@ -13,7 +13,7 @@ De achtergrond kleur van de chat veranderen,
 ## week 2
 Concept: Een dating chat app om mensen die last hebben van de zelfde storing met elkaar te laten praten. Met de ns api zijn worden de storingen opgehaald en kun je een match uitzoeken. Je kunt met 1 iemand matchen en op een match verzoek reageren per storing. Zo worden de gebruikers geforceert om het gesprek gaande te houden en niet te snel een nieuwe match te zoeken.
 
-Ns api documentatie: Er is een rate limit maar er staat nergens hoeveel. Dit zou ik op kunnen vragen.
+Ns api documentatie: Er is een rate limit maar er staat nergens hoeveel. Dit ga ik vragen via de support mail.
 
 request: GET https://gateway.apiportal.ns.nl/public-reisinformatie/api/v2/disruptions?type=storing&lang=nl
 
