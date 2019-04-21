@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/chat/src/css/chatStyle.css">
+    <title>CHAT</title>
+</head>
+
+
+
+<body>
+
+    <header>
+        <h2 id="count"></h2>
+        <form class="username" action="">
+            <input placeholder="set username" id="u" autocomplete="off" /><button>Set</button>
+        </form>
+        <form class="msg" action="" >
+            <input id="m" autocomplete="off" disabled /><button class="sendmsg" disabled>Send</button>
+        </form>
+    </header>
+    <main  >
+
+            <ul id="messages"></ul>
+
+
+    </main>
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/chat/src/js/chatsocket.js"></script>
+</body>
+
+</html>

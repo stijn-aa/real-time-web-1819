@@ -23,9 +23,6 @@
         li.appendChild(msgtext);
         document.querySelector('#messages').appendChild(li);
 
-        // if (document.querySelector('#messages').childElementCount > 50) {
-        //     document.querySelector('#messages').removeChild(document.querySelector('#messages').firstChild)
-        // }
 
         document.querySelector('main').scrollTo({
             top: document.querySelector('ul').scrollHeight,
