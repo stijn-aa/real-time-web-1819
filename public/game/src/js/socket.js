@@ -1,10 +1,13 @@
 (function () {
     var socket = io();
-    console.log(document)
 
     function load(elements) {
         elements.forEach(a => {
             a.addEventListener("click", function (event) {
+                if (a.classList.contains("user")) {
+                    console.log("is users")
+                    a.setAttribute('data-liked', true);
+                }
                 const slashpos = a.href.lastIndexOf("/") + 1
                 const id = a.href.substring(slashpos)
                 event.preventDefault();
@@ -14,11 +17,11 @@
     }
 
     function enterRoom(id) {
-        // if (0 === 0) {
-            socket.emit('room', id)
-        // } else if (0 === 0) {
-        //     socket.emit('match', id)
-        // }
+        if (id.length < 8) {
+            socket.emit('joinRoom', id)
+        } else {
+            socket.emit('liked', id)
+        }
     }
 
 
@@ -27,19 +30,26 @@
         clear();
         data.forEach(function (element) {
             BuildStoringen(element);
-            console.log(element)
         });
         load(document.querySelectorAll(".room"));
     })
 
-    socket.on('users', function (users) {
+    socket.on('user', function (userData) {
         clear();
-        // users.forEach(function (element) {
-        //     BuildUsers(element);
-        // })
-        console.log(users)
-        // load(document.querySelectorAll(".user"));
+        userData.forEach(function (element) {
+            BuildUsers(element);
+            console.log(element)
+        })
+
+        load(document.querySelectorAll(".user"));
     })
+
+    socket.on('match', function (user) {
+        clear();
+        console.log("its a match met " + user)
+    })
+
+
 }());
 
 function BuildStoringen(storing) {

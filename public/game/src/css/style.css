@@ -1,0 +1,78 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+
+body {
+    font: 13px Helvetica, Arial;
+}
+
+form {
+    display: flex;
+    padding: 3px;
+    margin: 3px auto;
+    width: 46%;
+    justify-content: space-around;
+}
+
+main {
+    background: #e4e4e4;
+    width: 45%;
+    margin: auto;
+    height: 72vh;
+    overflow:hidden;
+}
+
+form.msg {
+bottom: 0px;
+/* position: fixed; */
+}
+
+form input {
+    border-color: black;
+    border-width: 1px;
+    padding: 10px;
+    width: 90%;
+    /* margin-right: .5%; */
+}
+form button {
+    /* margin: auto; */
+    /* width: 9%; */
+    background: rgb(255, 236, 130);
+    border: none;
+    padding: 10px;
+    /* text-align: center; */
+    width: 51px;
+}
+#messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#messages li {
+    padding: 5px 10px;
+}
+
+/* #messages li:nth-child(odd) {
+    background: rgb(241, 142, 142);
+    background-blend-mode: saturation;
+} */
+h2{
+    margin: auto;
+    text-align: center;
+    width: 107px;
+    height: 29px;
+    padding: 10px;
+}
+
+a.user{
+    color: rgb(43, 42, 126);
+
+}
+
+a.user[data-liked = true]{
+    color: rgb(94, 230, 184)
+}
