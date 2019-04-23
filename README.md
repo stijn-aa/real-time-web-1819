@@ -13,16 +13,39 @@ De achtergrond kleur van de chat veranderen,
 ## week 2
 Concept: Een dating chat app om mensen die last hebben van de zelfde storing met elkaar te laten praten. Met de ns api zijn worden de storingen opgehaald en kun je een match uitzoeken. Je kunt met 1 iemand matchen en op een match verzoek reageren per storing. Zo worden de gebruikers geforceert om het gesprek gaande te houden en niet te snel een nieuwe match te zoeken.
 
-Ns api documentatie: Er is een rate limit maar er staat nergens hoeveel. Dit ga ik vragen via de support mail.
+#### Ns api documentatie:
+met de ns api is het mogelijk om reisplanner infomatie op te vragen zoals;
+
+- Actuele vertrektijden
+
+- Storingen en werkzaamheden
+
+- De stationslijst met alle stations in Nederland inclusief Geodata
+
+- Reisadviezen van station naar station
+
+Met een account krijg je toegang door een api key en die geeft je toegang tot de data.
+Er is een rate limit maar er staat nergens hoeveel. Dit heb ik op gevraagd via de support mail.
 
 request: GET https://gateway.apiportal.ns.nl/public-reisinformatie/api/v2/disruptions?type=storing&lang=nl
 
-Nice to have:
-- Als vertraging al bekent is bij de client niet emiten. Done
-- 
-
 ### live cycle data
 ![live cycle data](https://i.gyazo.com/ac0124298db8c193e3f800c879bac416.png)
+
+toelichting:
+- De server pollt elke 30 sec de api. Deze geeft een storing array terug.
+
+- Als client verbind je met de socket. Hier maak je een profiel aan (tot nu toe alleen een naam).
+
+- De client kiest een storing. Dit is tevents het room id die hij dan joint
+
+- De server geeft update alle clients in deze room met een nieuwe set aan users
+
+- Een user kan iemand uit de room keizen om mee te chatten. deze user krijgt een update in de vorm van een match request
+
+- als de user deze accepteert kunnen de users chat berichten naar elkaar versturen.
+
+
 
 
 
