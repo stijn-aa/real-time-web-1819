@@ -29,7 +29,7 @@ Er is een rate limit maar er staat nergens hoeveel. Dit heb ik op gevraagd via d
 
 request: GET https://gateway.apiportal.ns.nl/public-reisinformatie/api/v2/disruptions?type=storing&lang=nl
 
-### live cycle data
+### live cycle data V1
 ![live cycle data](https://i.gyazo.com/ac0124298db8c193e3f800c879bac416.png)
 
 toelichting:
