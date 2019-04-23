@@ -45,7 +45,21 @@ toelichting:
 
 - als de user deze accepteert kunnen de users chat berichten naar elkaar versturen.
 
+# status
+### should have
 
+- Basic matching system .Done
+- Remove user when disconected
+- make simple profile with name, age, bio 
+- chatroom with match
+- visual feedback > matching status: send/matched
+
+### would like to have
+
+- nicer css
+- unmatch feature
+- able to chat with more than one person at ones
+- 
 
 
 
