@@ -1,5 +1,79 @@
+var userDataRoom = undefined;
+var room = undefined;
+var inChatWith = undefined;
+
+var socket = io();
 (function () {
-    var socket = io();
+
+
+
+    socket.on('storingen', function (data) {
+        clear();
+        data.forEach(function (element) {
+            BuildStoringen(element);
+        });
+        load(document.querySelectorAll(".room"));
+    })
+
+    socket.on('user', function (userData) {
+        userDataRoom = userData
+        clear();
+        loadUsers()
+
+
+        document.querySelectorAll(".user").forEach(element => {
+            console.log(element)
+            const slashpos = element.href.lastIndexOf("/") + 1
+            const id = element.href.substring(slashpos)
+
+            socket.emit('rematch', id)
+        });
+    })
+
+    socket.on('match', function (user) {
+        console.log("its a match met " + user)
+        console.log(document.body.querySelector(`.user${user}`))
+        BuildMatches(user)
+        const button = document.body.querySelector(`.match${user}`).querySelector(`.chatButton`)
+
+        if (!button) {
+            createChatButton(user)
+        }
+    })
+
+    socket.on('chat message', function (msg , user) {
+
+        if (inChatWith === user) {
+            console.log(msg)
+
+            const li = document.createElement("li")
+            const msgtext = document.createTextNode(msg);
+            li.appendChild(msgtext);
+            document.querySelector('#messages').appendChild(li);
+
+
+            document.querySelector('section').scrollTo({
+                top: document.querySelector('ul').scrollHeight,
+                behavior: 'smooth'
+            });
+        }else if (inChatWith === "main"){
+
+            console.log("nieuw bericht van match")
+
+        }else{
+            console.log("nieuw bericht van iemand anders")
+        }
+    });
+
+    function loadUsers() {
+        userDataRoom.forEach(function (element) {
+            if (element !== socket.id) {
+                BuildUsers(element);
+                console.log(element)
+            }
+        })
+        load(document.querySelectorAll(".user"));
+    }
 
     function load(elements) {
         elements.forEach(a => {
@@ -17,40 +91,49 @@
     }
 
     function enterRoom(id) {
-        if (id.length < 8) {
-            socket.emit('joinRoom', id)
-        } else {
+        if (id.length > 8 && id.length < 30) {
             socket.emit('liked', id)
+        } else {
+            room = id
+            inChatWith = "main"
+            socket.emit('joinRoom', id)
         }
     }
 
 
+    function loadChat(user) {
+        socket.emit('inChat', user)
+        inChatWith = user
+        console.log(user)
 
-    socket.on('storingen', function (data) {
-        clear();
-        data.forEach(function (element) {
-            BuildStoringen(element);
+        document.querySelector('.msg').addEventListener("submit", function (e) {
+            e.preventDefault();
+            socket.emit('chat message', document.querySelector('#m').value, user);
+            document.querySelector('#m').value = "";
         });
-        load(document.querySelectorAll(".room"));
-    })
 
-    socket.on('user', function (userData) {
-        clear();
-        userData.forEach(function (element) {
-            BuildUsers(element);
-            console.log(element)
+        document.querySelector('.back').addEventListener("click", function (e) {
+            e.preventDefault();
+            socket.emit('chat message', "user left chat");
+            socket.emit('joinRoom', room)
+        });
+    }
+
+    function createChatButton(user) {
+        const chatButton = document.createElement("div");
+        chatButton.innerHTML = `<button class="chatButton user${user}">Chat!</button>`
+        document.body.querySelector(`.match${user}`).appendChild(chatButton);
+
+        chatButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            clear()
+            BuildChat()
+            loadChat(user)
         })
-
-        load(document.querySelectorAll(".user"));
-    })
-
-    socket.on('match', function (user) {
-        clear();
-        console.log("its a match met " + user)
-    })
-
-
+    }
 }());
+
+
 
 function BuildStoringen(storing) {
     const storingelement = document.createElement("div");
@@ -59,8 +142,7 @@ function BuildStoringen(storing) {
     <article>
     <p>type: ${storing.type}</p>
     <p>naam: ${storing.name}</p>
-    <p>omschrijving: ${storing.omschrijving}</p>
-    <p>verwachting: ${storing.verwachting}</p>
+
     </article>
     </a>
     `
@@ -70,16 +152,52 @@ function BuildStoringen(storing) {
 function BuildUsers(user) {
     const userelement = document.createElement("div");
     userelement.innerHTML = `
+    <div class="user${user}">
     <a href="/${user}" class="user">
     <article>
     <p>user: ${user}</p>
     </article>
     </a>
+    </div>
     `
     document.body.querySelector("main").appendChild(userelement);
 }
 
 function clear() {
     document.body.querySelector("main").innerHTML = ''
+
+}
+
+
+
+
+function BuildChat() {
+    const chat = document.createElement("div");
+    chat.innerHTML = `
+    <button class="back">Back</button>
+    <header>
+    <form class="msg" action="" >
+        <input id="m" autocomplete="off"/><button class="sendmsg">Send</button>
+    </form>
+    </header>
+    <section>
+
+        <ul id="messages"></ul>
+
+
+    </section>`
+    document.body.querySelector("main").appendChild(chat)
+
+}
+function BuildMatches(user) {
+    const match = document.createElement("div");
+    match.innerHTML = `
+    <div class="match${user}">
+    <article>
+    <p>user: ${user}</p>
+    </article>
+    </div>
+    `
+    document.body.querySelector("footer").appendChild(match)
 
 }

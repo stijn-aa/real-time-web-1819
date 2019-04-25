@@ -10,14 +10,14 @@ body {
 }
 
 form {
-    display: flex;
+    display: fixed;
     padding: 3px;
     margin: 3px auto;
     width: 46%;
     justify-content: space-around;
 }
 
-main {
+main, section {
     background: #e4e4e4;
     width: 45%;
     margin: auto;
@@ -27,7 +27,7 @@ main {
 
 form.msg {
 bottom: 0px;
-/* position: fixed; */
+position: fixed;
 }
 
 form input {
@@ -75,4 +75,9 @@ a.user{
 
 a.user[data-liked = true]{
     color: rgb(94, 230, 184)
+}
+
+article{
+    padding: 30px;
+    margin: 10px;
 }

@@ -17,13 +17,17 @@ app.get('/', function (req, res) {
 
 
 io.on('connect', function (socket) {
+
 	socket.join('storingen')
 	console.log(socket.id + "user connected")
 	api.request();
+	socket.roomCurrent = 'storingen'
 
 	socket.on('joinRoom', function (room) {
-		socket.leave("storingen")
+		socket.leave(socket.roomCurrent)
 		socket.join(room);
+		socket.roomCurrent = room
+		console.log("---------------------------------",socket.roomCurrent)
 
 		const roomExist = userData.find((x) => {
 
@@ -43,25 +47,87 @@ io.on('connect', function (socket) {
 		console.log('this is userdata', userData)
 
 		io.to(room).emit('user', userData.find((x) => {
-
 			return x.room === room;
 		}).users)
 
 	})
 
 	socket.on('liked', function (id) {
-		match = matchData.trymatch(socket.id, id)
-		console.log(match)
-		if (match === true) {
-			io.to(id).emit('match', socket.id)
-			io.to(socket.id).emit('match', id)
+		console.log("id", id)
+		console.log("socket id", socket.id)
+
+		if (socket.id !== id) {
+			match = matchData.trymatch(socket.id, id)
+			console.log(match)
+			if (match === true) {
+				io.to(id).emit('match', socket.id)
+				io.to(socket.id).emit('match', id)
+			}
 		}
+	});
+
+	socket.on("rematch", function(id){
+
+		if (socket.id !== id) {
+			match = matchData.retrymatch(socket.id, id)
+			console.log(match)
+			if (match === true) {
+				io.to(id).emit('match', socket.id)
+				io.to(socket.id).emit('match', id)
+			}
+		}
+	})
+
+	socket.on('inChat', function (room) {
+		socket.leave(socket.roomCurrent)
+		console.log("---------------------------------------------------",room)
+		socket.join(room);
+		
+		userData.forEach((x) => {
+			console.log(x.users)
+			console.log(socket.id)
+			x.users = x.users.filter((userId) => userId !== socket.id)
+		})
+
+		io.to(socket.roomCurrent).emit('user', userData.find((x) => {
+			return x.room === socket.roomCurrent;
+
+		}).users)
+		console.log(userData)
+		
+		socket.roomCurrent = room
+		console.log("----IN CHAT",socket.roomCurrent)
+
+	});
+
+	socket.on('chat message', function (msg, user) {
+		console.log('message: ' + msg);
+		io.to(user).emit('chat message', socket.id + ": " + msg, socket.id)
+		io.to(socket.id).emit('chat message', socket.id + ": " + msg, user)
+
 	});
 
 
 
 	socket.on('disconnect', function () {
-		console.log('user disconnected');
+		console.log(socket.id, ' user disconnected');
+		console.log(socket.roomCurrent)
+		const room = socket.roomCurrent
+
+		if (room.length < 8 || room.length > 30) {
+			userData.forEach((x) => {
+				console.log(x.users)
+				console.log(socket.id)
+				x.users = x.users.filter((userId) => userId !== socket.id)
+
+			})
+
+
+			io.to(room).emit('user', userData.find((x) => {
+
+				return x.room === room;
+			}).users)
+		}
 	});
 });
 
@@ -83,11 +149,22 @@ const matchData = {
 			console.log("its a match")
 			return true;
 		}
-
-
-
-
 	},
+	retrymatch: function (socketid, id) {
+		const match = this.matchSet.find((x) => {
+
+			return x.match === id + socketid || x.match === socketid + id
+		});
+
+		if (match === undefined) {
+			return false
+		} else {
+
+			console.log("its a rematch")
+			return true;
+		}
+	},
+
 	matchSet: [{
 
 	}]
@@ -144,12 +221,13 @@ const proces = {
 		let newArray = []
 
 		data.payload.forEach(function (element) {
+
 			const storing = {}
 			storing.id = element.id
 			storing.type = element.type
 			storing.name = element.titel
-			storing.omschrijving = element.verstoring.oorzaak
-			storing.verwachting = element.verstoring.verwachting
+			// storing.omschrijving = element.verstoring.oorzaak
+			// storing.verwachting = element.verstoring.verwachting
 			newArray.push(storing);
 		});
 

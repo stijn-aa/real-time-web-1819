@@ -49,13 +49,12 @@ toelichting:
 ### should have
 
 - Basic matching system .Done
-- Remove user when disconected
-- make simple profile with name, age, bio 
+- Remove user when disconected .Done
 - chatroom with match
 - visual feedback > matching status: send/matched
 
 ### would like to have
-
+- make simple profile with name, age, bio 
 - nicer css
 - unmatch feature
 - able to chat with more than one person at ones
